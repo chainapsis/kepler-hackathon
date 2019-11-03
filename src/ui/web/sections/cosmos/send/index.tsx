@@ -243,7 +243,7 @@ export const SendSection: FunctionComponent = observer(() => {
           </div>
         </div>
       </div>
-      <div className="column is-6-widescreen is-5-tablet">
+      {/*<div className="column is-6-widescreen is-5-tablet">
         <div className={style.assetColumn}>
           <div className={classames("card")}>
             <div className="notification is-warning">
@@ -256,7 +256,7 @@ export const SendSection: FunctionComponent = observer(() => {
             </div>
           </div>
         </div>
-      </div>
+      </div>*/}
     </div>
   );
 });
