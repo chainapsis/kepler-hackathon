@@ -28,7 +28,7 @@ export interface WalletUI {
 /* eslint-disable react/display-name */
 export const SupportedChainWalletUIs: WalletUI[] = [
   {
-    chainId: "cosmoshub-2",
+    chainId: "evrt0",
     menus: [
       {
         menuItemRender: ({ active, to }) => (
@@ -72,7 +72,7 @@ export const SupportedChainWalletUIs: WalletUI[] = [
     ]
   },
   {
-    chainId: "columbus-2",
+    chainId: "evrt1",
     menus: [
       {
         menuItemRender: ({ active, to }) => (
@@ -99,6 +99,16 @@ export const SupportedChainWalletUIs: WalletUI[] = [
           <Link className={classnames({ "is-active": active })} to={to}>
             <i className="fas fa-layer-group" />
             Stake
+          </Link>
+        ),
+        sectionRender: () => <UnderConstructionSection />
+      },
+      {
+        path: "governance",
+        menuItemRender: ({ active, to }) => (
+          <Link className={classnames({ "is-active": active })} to={to}>
+            <i className="fas fa-vote-yea" />
+            Governance
           </Link>
         ),
         sectionRender: () => <UnderConstructionSection />
