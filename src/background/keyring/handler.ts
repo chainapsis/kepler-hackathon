@@ -10,7 +10,8 @@ import {
   ApproveSignMsg,
   RejectSignMsg,
   GetRequestedMessage,
-  GetRegisteredChainMsg
+  GetRegisteredChainMsg,
+  ClearKeyRingMsg
 } from "./messages";
 import { KeyHex, KeyRingKeeper } from "./keeper";
 import { Address } from "@everett-protocol/cosmosjs/crypto";
@@ -25,6 +26,10 @@ export const getHandler: () => Handler = () => {
       case GetRegisteredChainMsg:
         return {
           chainInfos: keeper.getRegisteredChains()
+        };
+      case ClearKeyRingMsg:
+        return {
+          status: await keeper.clear()
         };
       case RestoreKeyRingMsg:
         return {

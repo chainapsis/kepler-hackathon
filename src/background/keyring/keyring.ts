@@ -83,6 +83,14 @@ export class KeyRing {
     this.mnemonic = await Crypto.decrypt(this.cipher, password);
   }
 
+  public async clear() {
+    this.cipher = "";
+    this.mnemonic = "";
+    this.cached = new Map();
+
+    await this.save();
+  }
+
   public async save() {
     const data: KeyRingData = {
       chiper: this.cipher

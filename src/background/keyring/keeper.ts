@@ -89,6 +89,11 @@ export class KeyRingKeeper {
     }
   }
 
+  async clear(): Promise<KeyRingStatus> {
+    await this.keyRing.clear();
+    return this.keyRing.status;
+  }
+
   async restore(): Promise<KeyRingStatus> {
     await this.keyRing.restore();
     return this.keyRing.status;
