@@ -30,6 +30,10 @@ function decimalStrAmount(amount: Int, decimals: number): string {
 export const AccountInfo: FunctionComponent = observer(() => {
   const { chainStore, accountStore } = useStore();
 
+  const coin = accountStore.assets.find(asset => {
+    return asset.denom === chainStore.chainInfo.coinMinimalDenom;
+  });
+
   return (
     <div className={style.container}>
       <div className={styleAsset.containerAsset}>
@@ -40,11 +44,10 @@ export const AccountInfo: FunctionComponent = observer(() => {
           />
         </div>
         <div className={styleAsset.amount}>
-          {!accountStore.isAssetFetching && accountStore.assets.length > 0
-            ? decimalStrAmount(
-                accountStore.assets[0].amount,
-                chainStore.chainInfo.coinDecimals
-              )
+          {!accountStore.isAssetFetching &&
+          accountStore.assets.length > 0 &&
+          coin
+            ? decimalStrAmount(coin.amount, chainStore.chainInfo.coinDecimals)
             : "0"}{" "}
           {chainStore.chainInfo.coinDenom}
         </div>
