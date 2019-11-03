@@ -19,34 +19,34 @@ export interface ChainInfo {
 
 export const NativeChainInfos: ChainInfo[] = [
   {
-    rpc: "http://localhost",
-    chainId: "cosmoshub-2",
+    rpc: "http://localhost:81",
+    chainId: "evrt0",
     chainName: "Cosmos",
     coinDenom: "ATOM",
-    coinMinimalDenom: "uATOM",
+    coinMinimalDenom: "uatom",
     coinDecimals: 6,
     coinIconUrl: require("assets/atom-icon.png"),
     walletUrl:
       process.env.NODE_ENV === "production"
         ? ""
-        : "http://localhost:8081/#/cosmoshub-2",
+        : "http://localhost:8081/#/evrt0",
     bip44: new BIP44(44, 118, 0),
     bech32Config: defaultBech32Config("cosmos")
   },
   {
-    rpc: "http://localhost:81",
-    chainId: "columbus-2",
-    chainName: "Terra",
-    coinDenom: "LUNA",
-    coinMinimalDenom: "uLUNA",
+    rpc: "http://localhost:82",
+    chainId: "evrt1",
+    chainName: "Everett",
+    coinDenom: "EVRT",
+    coinMinimalDenom: "uevrt",
     coinDecimals: 6,
     coinIconUrl: require("assets/luna-icon.svg"),
     walletUrl:
       process.env.NODE_ENV === "production"
         ? ""
-        : "http://localhost:8081/#/columbus-2",
-    bip44: new BIP44(44, 330, 0),
-    bech32Config: defaultBech32Config("terra")
+        : "http://localhost:8081/#/evrt1",
+    bip44: new BIP44(44, 118, 0),
+    bech32Config: defaultBech32Config("cosmos")
   }
 ];
 
@@ -60,11 +60,11 @@ export interface AccessOrigin {
  */
 export const ExtensionAccessOrigins: AccessOrigin[] = [
   {
-    chainId: "cosmoshub-2",
+    chainId: "evrt0",
     origins: ["http://localhost:8081"]
   },
   {
-    chainId: "columbus-2",
+    chainId: "evrt1",
     origins: ["http://localhost:8081"]
   }
 ];
