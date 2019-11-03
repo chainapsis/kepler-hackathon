@@ -7,6 +7,7 @@ import classnames from "classnames";
 import { UnderConstructionSection } from "./sections/under-construction";
 import { SendSection } from "./sections/cosmos/send";
 import { IBCTransferSection } from "./sections/cosmos/ibc-transfer";
+import { NFTSection } from "./sections/cosmos/nft";
 
 export interface Menu {
   /**
@@ -79,6 +80,16 @@ export const SupportedChainWalletUIs: WalletUI[] = [
           </Link>
         ),
         sectionRender: () => <IBCTransferSection />
+      },
+      {
+        path: "nft",
+        menuItemRender: ({ active, to }) => (
+          <Link className={classnames({ "is-active": active })} to={to}>
+            <i className="fas fa-atom" />
+            NFT
+          </Link>
+        ),
+        sectionRender: () => <NFTSection />
       }
     ]
   },
@@ -133,6 +144,16 @@ export const SupportedChainWalletUIs: WalletUI[] = [
           </Link>
         ),
         sectionRender: () => <IBCTransferSection />
+      },
+      {
+        path: "nft",
+        menuItemRender: ({ active, to }) => (
+          <Link className={classnames({ "is-active": active })} to={to}>
+            <i className="fas fa-atom" />
+            NFT
+          </Link>
+        ),
+        sectionRender: () => <NFTSection />
       }
     ]
   }
