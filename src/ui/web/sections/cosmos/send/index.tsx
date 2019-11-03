@@ -134,7 +134,7 @@ export const SendSection: FunctionComponent = observer(() => {
                           memo: data.memo,
                           fee: new Coin(
                             chainStore.chainInfo.coinMinimalDenom.toLowerCase(),
-                            new Int("1000")
+                            new Int("0")
                           )
                         },
                         "sync"

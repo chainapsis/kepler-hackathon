@@ -80,16 +80,6 @@ export const SupportedChainWalletUIs: WalletUI[] = [
           </Link>
         ),
         sectionRender: () => <IBCTransferSection />
-      },
-      {
-        path: "nft",
-        menuItemRender: ({ active, to }) => (
-          <Link className={classnames({ "is-active": active })} to={to}>
-            <i className="fas fa-atom" />
-            NFT
-          </Link>
-        ),
-        sectionRender: () => <NFTSection />
       }
     ]
   },

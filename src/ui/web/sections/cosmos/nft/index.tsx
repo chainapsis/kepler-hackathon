@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
 import { Input } from "../../../../components/form";
 
@@ -7,7 +7,7 @@ import style from "./styles.module.scss";
 import { Button } from "../../../../components/button";
 import useForm from "react-hook-form";
 import { observer } from "mobx-react";
-import { useStore } from "../../../stores";
+import { ChainStore, useStore } from "../../../stores";
 import {
   AccAddress,
   useBech32Config,
@@ -38,6 +38,53 @@ interface FormData {
   readonly id: string;
 }
 
+interface NFT {
+  id: string;
+  validator: string;
+  bondedShare: string;
+  collateral: string;
+  mintedLiquidity: string;
+}
+
+const getCosmosAPI = (chainStore: ChainStore): Api<Rest> => {
+  return new Api<Rest>(
+    {
+      chainId: chainStore.chainInfo.chainId,
+      // TODO: handle null wallet provider.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      walletProvider: window.cosmosJSWalletProvider!,
+      rpc: chainStore.chainInfo.rpc,
+      // No need.
+      rest: chainStore.chainInfo.rest,
+      disableGlobalBech32Config: true
+    },
+    {
+      txEncoder: defaultTxEncoder,
+      txBuilder: stdTxBuilder,
+      restFactory: (context: Context) => {
+        return new GaiaRest(context);
+      },
+      queryAccount: (
+        context: Context,
+        address: string | Uint8Array
+      ): Promise<Account> => {
+        return queryAccount(
+          context.get("bech32Config"),
+          context.get("rpcInstance"),
+          address
+        );
+      },
+      bech32Config: chainStore.chainInfo.bech32Config,
+      bip44: chainStore.chainInfo.bip44,
+      registerCodec: (codec: Codec) => {
+        codec.registerConcrete("cosmos-sdk/StdTx", StdTx.prototype);
+        Crypto.registerCodec(codec);
+        registerCodec(codec);
+      }
+    }
+  );
+};
+
 export const NFTSection: FunctionComponent = observer(() => {
   const { register, handleSubmit, setValue, errors } = useForm<FormData>({
     defaultValues: {
@@ -50,6 +97,7 @@ export const NFTSection: FunctionComponent = observer(() => {
   const { chainStore } = useStore();
 
   const [loading, setLoading] = useState(false);
+  const [nfts, setNFTs] = useState<NFT[]>([]);
 
   const notification = useNotification();
 
@@ -59,6 +107,54 @@ export const NFTSection: FunctionComponent = observer(() => {
     setValue("id", "");
   };
 
+  // Everett specific
+  const getNFTs = async () => {
+    const cosmosjs = getCosmosAPI(chainStore);
+    await cosmosjs.enable();
+
+    const keys = await cosmosjs.getKeys();
+
+    const address = keys[0].bech32Address;
+
+    const result = await cosmosjs.rest.instance.get(
+      `/nft/owner/${address}/collection/lsp`
+    );
+    const idCollections: { denom: string; ids: string[] }[] =
+      result.data.result.value.idCollections;
+    if (idCollections.length > 0 && idCollections[0].ids) {
+      const nfts: NFT[] = [];
+
+      for (const id of idCollections[0].ids) {
+        const result = await cosmosjs.rest.instance.get(
+          `/nft/collection/lsp/nft/${id}`
+        );
+
+        const value = result.data.result.value;
+        const token = JSON.parse(value["token_uri"]);
+        const validator = token.validator;
+        const bondedShare = token["bonded_share"];
+        const collateral = token.collateral;
+        const mintedLiquidity = token["minted_liquidity"];
+
+        const nft: NFT = {
+          id,
+          validator,
+          bondedShare: bondedShare.amount + bondedShare.denom,
+          collateral: collateral.amount + collateral.denom,
+          mintedLiquidity: mintedLiquidity.amount + mintedLiquidity.denom
+        };
+
+        nfts.push(nft);
+      }
+
+      setNFTs(nfts);
+    }
+  };
+
+  useEffect(() => {
+    setTimeout(getNFTs, 500);
+  }, [getNFTs]);
+
   return (
     <div className="columns is-gapless">
       <div className="column is-6-widescreen is-7-tablet">
@@ -66,45 +162,7 @@ export const NFTSection: FunctionComponent = observer(() => {
           <div className={classames("card", style.card)}>
             <form
               onSubmit={handleSubmit(async data => {
-                const cosmosjs = new Api<Rest>(
-                  {
-                    chainId: chainStore.chainInfo.chainId,
-                    // TODO: handle null wallet provider.
-                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    walletProvider: window.cosmosJSWalletProvider!,
-                    rpc: chainStore.chainInfo.rpc,
-                    // No need.
-                    rest: "",
-                    disableGlobalBech32Config: true
-                  },
-                  {
-                    txEncoder: defaultTxEncoder,
-                    txBuilder: stdTxBuilder,
-                    restFactory: (context: Context) => {
-                      return new GaiaRest(context);
-                    },
-                    queryAccount: (
-                      context: Context,
-                      address: string | Uint8Array
-                    ): Promise<Account> => {
-                      return queryAccount(
-                        context.get("bech32Config"),
-                        context.get("rpcInstance"),
-                        address
-                      );
-                    },
-                    bech32Config: chainStore.chainInfo.bech32Config,
-                    bip44: chainStore.chainInfo.bip44,
-                    registerCodec: (codec: Codec) => {
-                      codec.registerConcrete(
-                        "cosmos-sdk/StdTx",
-                        StdTx.prototype
-                      );
-                      Crypto.registerCodec(codec);
-                      registerCodec(codec);
-                    }
-                  }
-                );
+                const cosmosjs = getCosmosAPI(chainStore);
 
                 await cosmosjs.enable();
 
@@ -243,15 +301,37 @@ export const NFTSection: FunctionComponent = observer(() => {
       </div>
       <div className="column is-6-widescreen is-5-tablet">
         <div className={style.assetColumn}>
-          <div className={classames("card")}>
-            <div className="notification is-warning">
-              Primar lorem ipsum dolor sit amet, consectetur adipiscing elit
-              lorem ipsum dolor. <strong>Pellentesque risus mi</strong>, tempus
-              quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit
-              amet fringilla. Nullam gravida purus diam, et dictum{" "}
-              <a>felis venenatis</a> efficitur. Sit amet, consectetur adipiscing
-              elit
-            </div>
+          <div className={classames("card", style.card)}>
+            {nfts.map(nft => {
+              return (
+                <div key={nft.id}>
+                  <label className="label" style={{ marginBottom: "0" }}>
+                    ID
+                  </label>
+                  <div>{nft.id}</div>
+                  <label className="label" style={{ marginBottom: "0" }}>
+                    Validator
+                  </label>
+                  <div>{nft.validator}</div>
+                  <label className="label" style={{ marginBottom: "0" }}>
+                    Bonded Share
+                  </label>
+                  <div>{nft.bondedShare}</div>
+                  <label className="label" style={{ marginBottom: "0" }}>
+                    Collateral
+                  </label>
+                  <div>{nft.collateral}</div>
+                  <label className="label" style={{ marginBottom: "0" }}>
+                    Minted liquidity
+                  </label>
+                  <div>{nft.mintedLiquidity}</div>
+                  <div
+                    className="divider"
+                    style={{ borderTop: "1px solid #8c8b8b" }}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
