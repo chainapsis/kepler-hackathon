@@ -89,7 +89,7 @@ export const NFTSection: FunctionComponent = observer(() => {
   const { register, handleSubmit, setValue, errors } = useForm<FormData>({
     defaultValues: {
       recipient: "",
-      denom: "",
+      denom: "lsp",
       id: ""
     }
   });
@@ -103,7 +103,7 @@ export const NFTSection: FunctionComponent = observer(() => {
 
   const clearForm = () => {
     setValue("recipient", "");
-    setValue("denom", "");
+    setValue("denom", "lsp");
     setValue("id", "");
   };
 
