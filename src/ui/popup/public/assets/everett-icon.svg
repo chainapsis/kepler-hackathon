@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 237 237" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(69.3826,-180.169,-180.169,-69.3826,95.4182,283.914)">
+        <path d="M0.429,0.125L1.249,0.125L1.345,-0.125L0.525,-0.125L0.429,0.125Z" style="fill:url(#_Linear1);fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(69.3826,-180.169,-180.169,-69.3826,50.9109,219.093)">
+        <path d="M0.069,0.125L0.889,0.125L0.985,-0.125L0.165,-0.125L0.069,0.125Z" style="fill:url(#_Linear2);fill-rule:nonzero;"/>
+    </g>
+    <g transform="matrix(5.76675e-14,193.067,193.067,-5.76675e-14,37.0351,23.9787)">
+        <circle cx="0.262" cy="0" r="0.125" style="fill:url(#_Linear3);"/>
+    </g>
+    <defs>
+        <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.344748,-0.938695,-0.938695,-0.344748,0.581185,0.832589)"><stop offset="0" style="stop-color:rgb(13,182,209);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(150,210,204);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.344748,-0.938695,-0.938695,-0.344748,0.34544,0.494867)"><stop offset="0" style="stop-color:rgb(13,182,209);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(150,210,204);stop-opacity:1"/></linearGradient>
+        <linearGradient id="_Linear3" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0.0156231,0.999878,0.999878,-0.0156231,0.25779,-0.261849)"><stop offset="0" style="stop-color:rgb(13,182,209);stop-opacity:1"/><stop offset="1" style="stop-color:rgb(150,210,204);stop-opacity:1"/></linearGradient>
+    </defs>
+</svg>

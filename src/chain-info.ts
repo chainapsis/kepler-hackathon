@@ -40,7 +40,7 @@ export const NativeChainInfos: ChainInfo[] = [
     coinDenom: "EVRT",
     coinMinimalDenom: "uevrt",
     coinDecimals: 6,
-    coinIconUrl: require("assets/luna-icon.svg"),
+    coinIconUrl: require("assets/everett-icon.svg"),
     walletUrl:
       process.env.NODE_ENV === "production"
         ? ""
