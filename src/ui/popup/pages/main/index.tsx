@@ -3,6 +3,7 @@ import React from "react";
 import { HeaderLayout } from "../../layouts/HeaderLayout";
 
 import { AccountInfo } from "./account-info";
+import { TokenInfo } from "./token";
 
 import style from "./style.module.scss";
 
@@ -26,7 +27,9 @@ export class MainPage extends React.Component {
         <div className={style.containerAccount}>
           <AccountInfo />
         </div>
-        <div className={style.containerTxs} />
+        <div className={style.containerTxs}>
+          <TokenInfo />
+        </div>
       </HeaderLayout>
     );
   }
