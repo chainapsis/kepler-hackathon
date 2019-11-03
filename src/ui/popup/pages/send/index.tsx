@@ -12,13 +12,15 @@ import { PopupWalletProvider } from "../../wallet-provider";
 import { Api } from "@everett-protocol/cosmosjs/core/api";
 import { Rest } from "@everett-protocol/cosmosjs/core/rest";
 import { Account } from "@everett-protocol/cosmosjs/core/account";
-import { defaultTxEncoder } from "@everett-protocol/cosmosjs/common/stdTx";
+import {
+  defaultTxEncoder,
+  StdTx
+} from "@everett-protocol/cosmosjs/common/stdTx";
 import { stdTxBuilder } from "@everett-protocol/cosmosjs/common/stdTxBuilder";
 import { queryAccount } from "@everett-protocol/cosmosjs/core/query";
 import { GaiaRest } from "@everett-protocol/cosmosjs/gaia/rest";
 import { Context } from "@everett-protocol/cosmosjs/core/context";
 import { Codec } from "@node-a-team/ts-amino";
-import * as CmnCdc from "@everett-protocol/cosmosjs/common/codec";
 import * as Bank from "@everett-protocol/cosmosjs/x/bank";
 import * as Crypto from "@everett-protocol/cosmosjs/crypto";
 import { MsgSend } from "@everett-protocol/cosmosjs/x/bank";
@@ -100,7 +102,7 @@ export const SendPage: FunctionComponent<RouteComponentProps> = observer(
                 bech32Config: chainStore.chainInfo.bech32Config,
                 bip44: chainStore.chainInfo.bip44,
                 registerCodec: (codec: Codec) => {
-                  CmnCdc.registerCodec(codec);
+                  codec.registerConcrete("cosmos-sdk/StdTx", StdTx.prototype);
                   Crypto.registerCodec(codec);
                   // XXX: If cosmos-sdk/MsgSend has disambiguation bytes, it will not work
                   Bank.registerCodec(codec);
