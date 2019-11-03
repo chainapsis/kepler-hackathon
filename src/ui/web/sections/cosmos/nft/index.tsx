@@ -153,7 +153,8 @@ export const NFTSection: FunctionComponent = observer(() => {
 
   useEffect(() => {
     setTimeout(getNFTs, 500);
-  }, [getNFTs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="columns is-gapless">

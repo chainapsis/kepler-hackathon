@@ -9,6 +9,7 @@ import { SendSection } from "./sections/cosmos/send";
 import { IBCTransferSection } from "./sections/cosmos/ibc-transfer";
 import { NFTSection } from "./sections/cosmos/nft";
 import { SwapSection } from "./sections/cosmos/swap";
+import { LeverageSection } from "./sections/leverage";
 
 export interface Menu {
   /**
@@ -155,6 +156,16 @@ export const SupportedChainWalletUIs: WalletUI[] = [
           </Link>
         ),
         sectionRender: () => <SwapSection />
+      },
+      {
+        path: "leverage",
+        menuItemRender: ({ active, to }) => (
+          <Link className={classnames({ "is-active": active })} to={to}>
+            <i className="fab fa-xing" />
+            Leverage
+          </Link>
+        ),
+        sectionRender: () => <LeverageSection />
       }
     ]
   }
