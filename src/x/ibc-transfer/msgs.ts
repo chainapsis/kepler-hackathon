@@ -8,7 +8,7 @@ import { Int } from "@everett-protocol/cosmosjs/common/int";
 @DefineStruct()
 export class MsgTransfer extends Msg {
   @Field.String(0, {
-    jsonName: "chain_id"
+    jsonName: "chan_id"
   })
   public chanId: string;
 
