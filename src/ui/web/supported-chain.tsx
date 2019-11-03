@@ -6,6 +6,7 @@ import classnames from "classnames";
 
 import { UnderConstructionSection } from "./sections/under-construction";
 import { SendSection } from "./sections/cosmos/send";
+import { IBCTransferSection } from "./sections/cosmos/ibc-transfer";
 
 export interface Menu {
   /**
@@ -68,6 +69,16 @@ export const SupportedChainWalletUIs: WalletUI[] = [
           </Link>
         ),
         sectionRender: () => <UnderConstructionSection />
+      },
+      {
+        path: "ibc-transfer",
+        menuItemRender: ({ active, to }) => (
+          <Link className={classnames({ "is-active": active })} to={to}>
+            <i className="fas fa-random" />
+            IBC Transfer
+          </Link>
+        ),
+        sectionRender: () => <IBCTransferSection />
       }
     ]
   },
@@ -112,6 +123,16 @@ export const SupportedChainWalletUIs: WalletUI[] = [
           </Link>
         ),
         sectionRender: () => <UnderConstructionSection />
+      },
+      {
+        path: "ibc-transfer",
+        menuItemRender: ({ active, to }) => (
+          <Link className={classnames({ "is-active": active })} to={to}>
+            <i className="fas fa-random" />
+            IBC Transfer
+          </Link>
+        ),
+        sectionRender: () => <IBCTransferSection />
       }
     ]
   }
