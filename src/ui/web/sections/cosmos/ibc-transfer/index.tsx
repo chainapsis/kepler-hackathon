@@ -173,7 +173,7 @@ export const IBCTransferSection: FunctionComponent = observer(() => {
                           memo: "",
                           fee: new Coin(
                             chainStore.chainInfo.coinMinimalDenom.toLowerCase(),
-                            new Int("1000")
+                            new Int("0")
                           )
                         },
                         "commit"
